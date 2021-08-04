@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+    table, tr, td, th {
+    border-collapse: collapse;
+      border: 1px solid black;
+    }
+    td, th {
+      padding: 12px;
+    }
+    tr:nth-child(odd) {
+      background: #ccc;
+    }
+    thead, th {
+      position: sticky;
+      top: 0;
+      background: black;
+      color: white;
+    }
+    table {
+      margin-bottom: 20px;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+    LOADING...
+    </div>
+    
+    <script>
+    </script>
+    <script>
+    
+    function renderTreesAndFlowers(treesAndFlowers) {
+      const table = document.createElement('table');
+      const tbody = document.createElement('tbody');
+      table.innerHTML += `<thead><tr>
+      <th>Name</td>
+      <th>Price</td>
+      <th>Sell</td>
+      <th>Name</td>
+      <th>Planted In</td>
+      <th>Grows In</td>
+      </tr></thead>`;
+      
+      treesAndFlowers.map(t => tbody.innerHTML += `
+      <tr>
+      <td>${t.Name}</td>
+      <td>${t.Price || ""}</td>
+      <td>${t.Sell || ""}</td>
+      <td>${t.Name}</td>
+      <td>${t["Planted In"]}</td>
+      <td>${t["Grows In"]}</td>
+      </tr>`);
+      
+      table.append(tbody);
+      table.insert
+      
+      document.getElementById('root').append(table);
+      table.insertAdjacentHTML("beforebegin", "<h1>Trees And Flowers</h1>")
+    }
+    
+    function renderFarming(farming) {
+      const table = document.createElement('table');
+      const tbody = document.createElement('tbody');
+      table.innerHTML += `<thead><tr>
+      <th>Name</td>
+      <th>Harvest Age</td>
+      <th>Seasons</td>
+      </tr></thead>`;
+      
+      farming.map(t => tbody.innerHTML += `
+      <tr>
+      <td>${t.Name}</td>
+      <td>${t['Harvest Age'] || ""}</td>
+      <td>${t.Seasons.join(', ')}</td>
+      </tr>`);
+      
+      table.append(tbody);
+      
+      document.getElementById('root').append(table);
+      table.insertAdjacentHTML("beforebegin", "<h1>Farming</h1>");
+    }
+    
+    function renderOthers(others) {
+      const table = document.createElement('table');
+      const tbody = document.createElement('tbody');
+      table.innerHTML += `<thead><tr>
+      <th>Name</td>
+      <th>Price</td>
+      <th>Sell</td>
+      </tr></thead>`;
+      
+      others.map(t => tbody.innerHTML += `
+      <tr>
+      <td>${t.Name}</td>
+      <td>${t.Price || ""}</td>
+      <td>${t.Sell || ""}</td>
+      </tr>`);
+      
+      table.append(tbody);
+      document.getElementById('root').append(table);
+      table.insertAdjacentHTML("beforebegin", "<h1>Others</h1>")
+    }
+    
+    function render(json) {
+      const treesAndFlowers = json.filter(i=>i['Planted In']);
+      const farming = json.filter(i=>i['Harvest Age']);
+      const others = json.filter(i=>!(i['Planted In']&&i['Harvest Age']));
+      
+      document.getElementById('root').innerHTML="";
+      renderTreesAndFlowers(treesAndFlowers);
+      renderFarming(farming);
+      renderOthers(others);
+    }
+    fetch('output.json').then(res=>res.json()).then(json=>{
+      render(json);
+    });
+    </script>
+  </body>
+</html>
