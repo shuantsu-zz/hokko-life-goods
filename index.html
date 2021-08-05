@@ -35,10 +35,12 @@
     <script>
     </script>
     <script>
-    
+    const a = new Date();
     function renderTreesAndFlowers(treesAndFlowers) {
       const table = document.createElement('table');
       const tbody = document.createElement('tbody');
+      const content = [];
+      
       table.innerHTML += `<thead><tr>
       <th>Name</td>
       <th>Price</td>
@@ -48,7 +50,7 @@
       <th>Grows In</td>
       </tr></thead>`;
       
-      treesAndFlowers.map(t => tbody.innerHTML += `
+      treesAndFlowers.map(t => content.push(`
       <tr>
       <td>${t.Name}</td>
       <td>${t.Price || ""}</td>
@@ -56,7 +58,9 @@
       <td>${t.Name}</td>
       <td>${t["Planted In"]}</td>
       <td>${t["Grows In"]}</td>
-      </tr>`);
+      </tr>`));
+      
+      tbody.innerHTML = content.join('');
       
       table.append(tbody);
       
@@ -66,19 +70,23 @@
     
     function renderFarming(farming) {
       const table = document.createElement('table');
-      const tbody = document.createElement('tbody');
+      const tbody = document.createElement('tbody');      
+      const content = [];
+      
       table.innerHTML += `<thead><tr>
       <th>Name</td>
       <th>Harvest Age</td>
       <th>Seasons</td>
       </tr></thead>`;
       
-      farming.map(t => tbody.innerHTML += `
+      farming.map(t => content.push(`
       <tr>
       <td>${t.Name}</td>
       <td>${t['Harvest Age'] || ""}</td>
       <td>${t.Seasons.join(', ')}</td>
-      </tr>`);
+      </tr>`));
+      
+      tbody.innerHTML = content.join('');
       
       table.append(tbody);
       
@@ -89,18 +97,22 @@
     function renderOthers(others) {
       const table = document.createElement('table');
       const tbody = document.createElement('tbody');
+      const content = [];
+      
       table.innerHTML += `<thead><tr>
       <th>Name</td>
       <th>Price</td>
       <th>Sell</td>
       </tr></thead>`;
       
-      others.map(t => tbody.innerHTML += `
+      others.map(t => content.push(`
       <tr>
       <td>${t.Name}</td>
       <td>${t.Price || ""}</td>
       <td>${t.Sell || ""}</td>
-      </tr>`);
+      </tr>`));
+      
+      tbody.innerHTML = content.join('');
       
       table.append(tbody);
       document.getElementById('root').append(table);
@@ -116,6 +128,7 @@
       renderTreesAndFlowers(treesAndFlowers);
       renderFarming(farming);
       renderOthers(others);
+      console.log((new Date() - a) / 1000);
     }
     fetch('output.json').then(res=>res.json()).then(json=>{
       render(json);
