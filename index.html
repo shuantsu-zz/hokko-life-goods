@@ -128,7 +128,7 @@
       renderTreesAndFlowers(treesAndFlowers);
       renderFarming(farming);
       renderOthers(others);
-      console.log((new Date() - a) / 1000);
+      console.log('loaded in:', (new Date() - a) / 1000);
     }
     fetch('output.json').then(res=>res.json()).then(json=>{
       render(json);
